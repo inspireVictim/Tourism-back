@@ -1,8 +1,10 @@
 import uvicorn
 from fastapi import Depends, FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 from typing import List, Optional
 from sqlalchemy import text
+import os
 
 from Core.env_loader import load_env_file
 from db.database import engine, get_db, Base
@@ -52,6 +54,16 @@ app = FastAPI(
     title="NomadAI API",
     description="Маркетплейс туров: партнеры продают, пользователи покупают",
     version="1.0.0"
+)
+
+cors_origins = os.getenv("CORS_ALLOW_ORIGINS", "http://localhost:5173,http://127.0.0.1:5173")
+allowed_origins = [origin.strip() for origin in cors_origins.split(",") if origin.strip()]
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=allowed_origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 # --- Эндпоинты для Партнеров (Турагентств) ---
