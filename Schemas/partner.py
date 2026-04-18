@@ -1,5 +1,6 @@
-from pydantic import BaseModel, HttpUrl
-from typing import Optional, List
+from typing import Optional
+
+from pydantic import BaseModel, EmailStr, HttpUrl
 
 class PartnerBase(BaseModel):
     name: str
@@ -9,11 +10,19 @@ class PartnerBase(BaseModel):
     rating: float = 0.0
 
 class PartnerCreate(PartnerBase):
-    contact_email: str
+    contact_email: EmailStr
     phone_number: str
+    password: str
+
+
+class PartnerLogin(BaseModel):
+    contact_email: EmailStr
+    password: str
 
 class PartnerOut(PartnerBase):
     id: int
+    contact_email: EmailStr
+    phone_number: str
     is_active: bool
     
     class Config:

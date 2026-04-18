@@ -11,3 +11,11 @@ def create_tour(db: Session, tour: TourCreate):
 
 def get_tours_by_partner(db: Session, partner_id: int):
     return db.query(Tour).filter(Tour.partner_id == partner_id).all()
+
+
+def get_tours_by_destination(db: Session, destination: str):
+    return db.query(Tour).filter(Tour.destination == destination).all()
+
+
+def get_all_tours(db: Session):
+    return db.query(Tour).all()
